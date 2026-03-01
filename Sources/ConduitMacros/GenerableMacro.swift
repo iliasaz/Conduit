@@ -137,8 +137,11 @@ private func parseType(_ type: TypeSyntax) -> (String, Bool, Bool, String?) {
     if let generic = type.as(IdentifierTypeSyntax.self),
        generic.name.text == "Array",
        let args = generic.genericArgumentClause?.arguments.first {
-        let (element, _, _, _) = parseType(args.argument)
-        return ("[\(element)]", false, true, element)
+        // swift-syntax 601+ changed GenericArgumentSyntax.argument to an enum
+        if case .type(let argType) = args.argument {
+            let (element, _, _, _) = parseType(TypeSyntax(argType))
+            return ("[\(element)]", false, true, element)
+        }
     }
 
     // Simple type
