@@ -4,7 +4,7 @@
 // Central manager for model downloads, caching, and lifecycle.
 // This file requires the MLX trait as it depends on Hub for HuggingFace downloads.
 
-#if canImport(Hub)
+#if CONDUIT_TRAIT_MLX
 
 import Foundation
 import Hub
@@ -779,4 +779,4 @@ extension ModelManager {
     }
 }
 
-#endif // canImport(Hub)
+#endif // CONDUIT_TRAIT_MLX

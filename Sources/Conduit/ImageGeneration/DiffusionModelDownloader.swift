@@ -4,7 +4,7 @@
 // This file requires the MLX trait to be enabled as it depends on Hub
 // from the MLX ecosystem for downloading models from HuggingFace.
 
-#if canImport(Hub)
+#if CONDUIT_TRAIT_MLX
 
 import Foundation
 import Hub
@@ -375,4 +375,4 @@ extension DiffusionModelDownloader {
     }
 }
 
-#endif // canImport(Hub)
+#endif // CONDUIT_TRAIT_MLX

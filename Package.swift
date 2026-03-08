@@ -60,6 +60,7 @@ let package = Package(
                 .product(name: "StableDiffusion", package: "mlx-swift-examples", condition: .when(traits: ["MLX"])),
             ],
             swiftSettings: [
+                .define("CONDUIT_TRAIT_MLX", .when(traits: ["MLX"])),
                 .enableExperimentalFeature("StrictConcurrency")
             ]
         ),
