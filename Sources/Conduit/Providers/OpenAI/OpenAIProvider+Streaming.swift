@@ -828,6 +828,8 @@ extension OpenAIProvider {
             case .ignored:
                 return false
             }
+
+            return false
         }
 
         for try await line in bytes.lines {
