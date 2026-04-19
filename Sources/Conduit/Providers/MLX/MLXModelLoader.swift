@@ -3,7 +3,7 @@
 //
 // NOTE: This entire file requires MLX trait - Metal GPU and Apple Silicon only.
 
-#if canImport(MLX)
+#if CONDUIT_TRAIT_MLX && canImport(MLX)
 
 import Foundation
 @preconcurrency import MLX

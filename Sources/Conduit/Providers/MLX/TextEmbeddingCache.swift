@@ -6,7 +6,7 @@
 import Foundation
 // MARK: - Linux Compatibility
 // NOTE: MLX requires Metal GPU and Apple Silicon. Not available on Linux.
-#if canImport(MLX)
+#if CONDUIT_TRAIT_MLX && canImport(MLX)
 @preconcurrency import MLX
 
 // MARK: - TextEmbeddingCache

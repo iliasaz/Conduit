@@ -6,7 +6,7 @@
 import Foundation
 // MARK: - Linux Compatibility
 // NOTE: MLX and StableDiffusion require Metal GPU. Not available on Linux.
-#if canImport(MLX)
+#if CONDUIT_TRAIT_MLX && canImport(MLX)
 import Hub
 @preconcurrency import MLX
 import StableDiffusion
