@@ -828,41 +828,13 @@ extension OpenAIProvider {
             case .ignored:
                 return false
             }
+        }
 
-                    toolAccumulatorsByID[callID] = accumulator
+        for try await line in bytes.lines {
+            try Task.checkCancellation()
 
-                    do {
-                        let partialToolCall = try PartialToolCall.validated(
-                            id: accumulator.id,
-                            toolName: accumulator.name,
-                            index: accumulator.index,
-                            argumentsFragment: accumulator.argumentsBuffer
-                        )
-                        continuation.yield(GenerationChunk(
-                            text: "",
-                            tokenCount: 0,
-                            isComplete: false,
-                            partialToolCall: partialToolCall,
-                            reasoningDetails: currentReasoningDetails()
-                        ))
-                    } catch {
-                        logger.error(
-                            "Skipping partial tool call '\(accumulator.name)' at index \(accumulator.index): \(error.localizedDescription)"
-                        )
-                    }
-
-                case .completed:
-                    let completedToolCalls = finalizeToolCalls()
-                    let finishReason = decoded.finishReason ?? (completedToolCalls.isEmpty ? .stop : .toolCalls)
-                    continuation.yield(GenerationChunk(
-                        text: "",
-                        tokenCount: 0,
-                        isComplete: true,
-                        finishReason: finishReason,
-                        usage: decoded.usage,
-                        completedToolCalls: completedToolCalls.isEmpty ? nil : completedToolCalls,
-                        reasoningDetails: currentReasoningDetails()
-                    ))
+            for event in sseParser.ingestLine(line) {
+                if processResponsesEventData(event.data) {
                     continuation.finish()
                     return
                 }
